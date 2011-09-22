@@ -48,6 +48,7 @@ function love.load()
     -- the game itself
     game = {}
     game.state = "start"
+    game.level = 1
 end
 
 function love.update(dt)
@@ -60,7 +61,7 @@ function love.update(dt)
 
         for i,v in ipairs(enemies) do
             -- enemies slowly drift down
-            v.y = v.y + dt
+            v.y = v.y + dt * game.level * game.level * 2
 
             -- check for collision with ground
             if v.y > 465 then
@@ -101,7 +102,26 @@ function love.update(dt)
             numEnemies = numEnemies + 1
         end
         if numEnemies == 0 then
-            game.state = "win"
+            game.level = game.level + 1
+            if game.level > 3 then
+                game.state = "win"
+            else
+                -- reset enemies
+                enemies = {}
+                for i=0,6 do
+                    enemy = {}
+                    enemy.width = 40
+                    enemy.height = 20
+                    enemy.x = i * (enemy.width + 60) + 100
+                    enemy.y = enemy.height + 100
+                    table.insert(enemies, enemy)
+                end
+
+                -- remove all the bullets from the screen
+                for i,v in ipairs(hero.shots) do
+                    hero.shots[i] = nil
+                end
+            end
         end
     end
 end
@@ -135,6 +155,11 @@ function love.draw()
         for i,v in ipairs(hero.shots) do
             love.graphics.rectangle("fill", v.x, v.y, 2, 5)
         end
+
+        -- draw the level on the screen
+        love.graphics.setColor(0, 255, 255, 255)
+        love.graphics.print("Level: ", 20, 20)
+        love.graphics.print(game.level, 60, 20)
     elseif game.state == "dead" then
         -- lost the game
         love.graphics.setColor(255, 0, 0, 255)
