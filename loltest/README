@@ -1,0 +1,12 @@
+This is my first game in Lua, and my first (obviously) in Love2D.
+
+Its supposed to be a very simple test to see what the framework is like.
+
+I followed a tutorial I found at http://www.headchant.com/ at first, and
+then extended it once I reached the end of that tutorial.
+
+Technically, this is a full game.  It has state management (start screen, playing,
+won, lost), it has 3 levels, etc.
+
+Its ugly, but its actually a working game that I have finished, so I'm somewhat
+proud of it.
