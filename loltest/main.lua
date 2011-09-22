@@ -41,6 +41,9 @@ function love.load()
         enemy.y = enemy.height + 100
         table.insert(enemies, enemy)
     end
+
+    -- images
+    bg = love.graphics.newImage("resources/stormclouds.bmp")
 end
 
 function love.update(dt)
@@ -88,6 +91,10 @@ function love.update(dt)
 end
 
 function love.draw()
+    -- draw the background
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.draw(bg)
+
     -- draw some ground
     love.graphics.setColor(0, 255, 0, 255)
     love.graphics.rectangle("fill", 0, 465, 800, 150)
