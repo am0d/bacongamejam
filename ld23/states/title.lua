@@ -10,6 +10,7 @@ function state:leave ()
 end
 
 function state:draw ()
+    love.graphics.print("Hello, world!", 50, 50)
 end
 
 function state:update (dt)
