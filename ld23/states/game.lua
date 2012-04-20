@@ -12,6 +12,10 @@ end
 
 function state:enter ()
     p = Player({x = 100, y = 200})
+
+    for i = 0,10 do
+        Ground({x = i * 100, y = 500})
+    end
 end
 
 function state:leave ()
@@ -22,9 +26,12 @@ function state:draw ()
 end
 
 function state:update (dt)
+    Entities.update(dt)
+    Collider:update(dt)
 end
 
 function state:keypressed (key)
+    Entities.keyPressed(key)
 end
 
 return state

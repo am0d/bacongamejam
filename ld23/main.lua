@@ -1,7 +1,9 @@
 HC = require "HardonCollider"
 Class = require "hump.class"
 GS = require "hump.gamestate"
-vector = require "HardonCollider.vector-light"
+vector = require "hump.vector"
+
+_NULL_ = function () end
 
 --[[ RESOURCE MANAGEMENT ]]--
 local function Proxy(f)
@@ -18,6 +20,7 @@ require 'collidable'
 require 'entities'
 
 require 'player'
+require 'ground'
 
 function love.load ()
     GS.registerEvents ()
