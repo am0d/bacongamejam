@@ -1,12 +1,12 @@
-MAX_VEL = 50
+MAX_VEL = 10
+GRAVITY = 10
 
 Player = Class{function(self, pos)
     self.shape = Collider:addRectangle(0, 0, 20, 50)
     self.shape.object = self
     self.group = "Player"
 
-    self.dy = 10
-    self.ay = 0
+    self.velocity = vector(0, 0)
     self.shape:moveTo(pos.x, pos.y)
 
     Entities.add(self, Entities.MID)
@@ -18,18 +18,31 @@ function Player:remove()
 end
 
 function Player:update(dt)
-    local dx = 0
-    local dy = 0
+    local dv = vector(0, GRAVITY)
+
     if love.keyboard.isDown('right') then
-        dx = dx + 1
+        dv.x = dv.x + MAX_VEL
     end
     if love.keyboard.isDown('left') then
-        dx = dx - 1
+        dv.x = dv.x - MAX_VEL
     end
-    dx = dx * dt * MAX_VEL
-    dy = self.dy * dt
+    if math.abs(self.velocity.x) < MAX_VEL / 4 and dv.x == 0 then
+        self.velocity.x = 0
+    elseif dv.x == 0 then
+        dv.x = -MAX_VEL
+    end
+    self.velocity = self.velocity + dv * dt
+    if math.abs(self.velocity.x) > MAX_VEL then
+        self.velocity.x = self.velocity.x / math.abs(self.velocity.x) * MAX_VEL
+    end
 
-    self.shape:move(dx, dy)
+    self.shape:move(self.velocity)
+end
+
+function Player:keyPressed(key)
+    if key == 'up' then
+        self.velocity.y = -GRAVITY
+    end
 end
 
 function Player:draw()
@@ -39,5 +52,5 @@ end
 
 Player:onCollide("ground", function (self, other, dx, dy)
     self.shape:move(dx, dy)
-    self.dy = 0
+    self.velocity.y = 0
 end)
